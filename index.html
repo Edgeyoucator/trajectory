@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ball Trajectory Explorer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1 class="challenge-title">Can you hit the bucket 3 times in a row?</h1>
+    <div id="grid-area">
+      <div id="trail-container"></div>
+      <img id="bucket" src="images/bucket.png" alt="bucket target">
+      <div id="ball"></div>
+      <div id="controls">
+        <label class="slider-row">
+          <span>Height:</span>
+          <input type="range" id="heightSlider" min="1" max="18" value="10" step="1">
+          <span id="heightValue">10</span>
+          <span>m</span>
+        </label>
+        <label class="slider-row">
+          <span>Velocity:</span>
+          <input type="range" id="velocitySlider" min="1" max="18" value="10" step="1">
+          <span id="velocityValue">10</span>
+          <span>m/s</span>
+        </label>
+        <div class="buttons">
+          <button id="launchBtn">Launch Ball</button>
+          <span id="timer">⏱ 0.00s</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js" defer></script>
+</body>
+</html>
