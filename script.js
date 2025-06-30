@@ -143,7 +143,12 @@ launchBtn.addEventListener('click', () => {
         streak++;
         if (streak >= 3) {
           showWinMessage();
-          launchBtn.disabled = true;
+          
+          setTimeout(() => {
+            streak = 0;
+            positionBucket();
+            resetForNextRound();
+          }, 2000);
         } else {
           showMessage(`🎯 Hit! Streak: ${streak}`, 'rgba(134, 218, 189, 0.9)');
           positionBucket();
