@@ -5,6 +5,7 @@ const velocityValue = document.getElementById('velocityValue');
 
 const ball = document.getElementById('ball');
 const bucket = document.getElementById('bucket');
+const bucketLabel = document.getElementById('bucketLabel');
 const launchBtn = document.getElementById('launchBtn');
 const timerDisplay = document.getElementById('timer');
 const trailContainer = document.getElementById('trail-container');
@@ -53,9 +54,14 @@ function positionBucket() {
   const randX = Math.floor(Math.random() * (gridWidth - 80)) + 40;
   bucket.style.left = `${randX}px`;
   bucket.dataset.targetX = randX;
+
+  const pxPerMeter = grid.clientHeight / 20;
+  const xMeters = ((randX - ballRadius) / pxPerMeter).toFixed(1);
+  bucketLabel.textContent = `${xMeters} m`;
+  bucketLabel.style.left = `${randX}px`;
 }
 
-function showMessage(text, color = '#86dabd') {
+function showMessage(text, color = 'rgba(134, 218, 189, 0.9)') {
   const msg = document.createElement('div');
   msg.textContent = text;
   msg.style.position = 'absolute';
@@ -67,12 +73,13 @@ function showMessage(text, color = '#86dabd') {
   msg.style.padding = '0.5rem 1rem';
   msg.style.borderRadius = '8px';
   msg.style.zIndex = '999';
+  msg.style.backdropFilter = 'blur(2px)';
   document.body.appendChild(msg);
   setTimeout(() => msg.remove(), 2000);
 }
 
 function showWinMessage() {
-  showMessage('🏆 You Win!', '#00ff99');
+  showMessage('🏆 You Win!', 'rgba(0, 255, 153, 0.9)');
 }
 
 function resetForNextRound() {
@@ -86,7 +93,6 @@ function resetForNextRound() {
 launchBtn.addEventListener('click', () => {
   if (falling) return;
   if (launchBtn.disabled) {
-    // Replay after winning
     streak = 0;
     launchBtn.disabled = false;
     positionBucket();
@@ -131,8 +137,7 @@ launchBtn.addEventListener('click', () => {
       falling = false;
 
       const bucketX = parseFloat(bucket.dataset.targetX);
-      const bucketWidth = 40;
-      const hit = xPx >= bucketX - bucketWidth / 2 && xPx <= bucketX + bucketWidth / 2;
+      const hit = xPx >= bucketX - 20 && xPx <= bucketX + 20;
 
       if (hit) {
         streak++;
@@ -140,12 +145,12 @@ launchBtn.addEventListener('click', () => {
           showWinMessage();
           launchBtn.disabled = true;
         } else {
-          showMessage(`🎯 Hit! Streak: ${streak}`);
+          showMessage(`🎯 Hit! Streak: ${streak}`, 'rgba(134, 218, 189, 0.9)');
           positionBucket();
         }
       } else {
         streak = 0;
-        showMessage('❌ Miss. Score reset.', '#ff5555');
+        showMessage('❌ Miss. Score reset.', 'rgba(237, 95, 4, 0.7)');
       }
 
       return;
@@ -157,7 +162,6 @@ launchBtn.addEventListener('click', () => {
   animationId = requestAnimationFrame(animate);
 });
 
-// Initial setup
 updateSliderDisplays();
 updateBallPosition();
 positionBucket();
